@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>MOVIE</title>
+  <!-- Noto Sans 폰트 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {font-family: 'Noto Sans', sans-serif;text-align: center;background: #D7DCD9;margin: 0;margin-top: 50px;padding: 2rem;}h1 { margin-bottom: 5rem; }
+
+    .main-container {display: flex;justify-content: center;align-items: flex-start;gap: 12rem;margin-top: 2rem;}
+
+    
+    #cd-box {position: relative;width: 400px;height: 400px;border-radius: 50%;overflow: hidden;border: 0.5px solid #333;box-shadow: 0 0 5px rgba(0,0,0,0.2); }
+    #cd-image { width: 100%;height: 100%;object-fit: cover;animation: spin 4s linear infinite;animation-play-state: paused;}
+    #cd-hole {position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);width: 65px;height: 65px;background: #D7DCD9;border: 2px solid #666;border-radius: 50%;z-index: 1;box-shadow: inset 0 0 5px rgba(0,0,0,0.1);}
+
+    #movie-info {margin-top: 2rem;font-size: 1.3rem;color: #333;font-weight: bold;}
+    #ost-info {margin-top: 0.3rem;margin-bottom: 2rem;font-size: 1rem;color: #666;}
+
+    #thumbnails {display: flex;flex-direction: column;justify-content: space-between;height: 500px; gap: 10px;}
+    .thumb {width: 180px;height: 90px;object-fit: cover;border-radius: 3px;cursor: pointer;transition: transform 0.2s, border-color 0.1s;}
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }}
+  </style>
+</head>
+
+<body>
+  <h1>Today's Movie Ost</h1>
+
+  <div class="main-container">
+    <div>
+      <div id="cd-box">
+        <img id="cd-image" src="white.jpg" alt="CD 이미지">
+        <div id="cd-hole"></div>
+      </div>
+      <div id="movie-info">select image</div>
+      <div id="ost-info">마음에 드는 이미지를 선택해보세요</div>
+    </div>
+
+    <div id="thumbnails">
+      <img src="pride_thumb.jpg" alt="Pride & Prejudice" class="thumb" data-index="0">
+      <img src="notebook_thumb.jpg" alt="Notebook" class="thumb" data-index="1">
+      <img src="loveletter_thumb.jpg" alt="Letters To Juliet" class="thumb" data-index="2">
+      <img src="china_thumb.jpg" alt="致我们单纯的小美好" class="thumb" data-index="3">
+      <img src="classic_thumb.jpg" alt="클래식" class="thumb" data-index="4">
+    </div>
+  </div>
+
+  <audio id="music-player"></audio>
+
+  <script>
+    const cdImage = document.getElementById("cd-image");
+    const musicPlayer = document.getElementById("music-player");
+    const movieInfo = document.getElementById("movie-info");
+    const ostInfo = document.getElementById("ost-info");
+    const thumbnails = document.querySelectorAll(".thumb");
+
+    const movieData = [
+      { name: "Pride & Prejudice", image: "pride.jpg", music: "pride.mp3", ost: "Dario Marianelli - Dawn" },
+      { name: "Notebook", image: "notebook.jpg", music: "notebook.mp3", ost: "Lauv - Never Not" },
+      { name: "Letters To Juliet", image: "loveletter.jpg", music: "loveletter.mp3", ost: "Taylor Swift - Love Story" },
+      { name: "致我们单纯的小美好", image: "china.jpg", music: "china.mp3", ost: "我多喜欢你 你会知道 - 王俊琪" },
+      { name: "클래식", image: "classic.jpg", music: "classic.mp3", ost: "자전거 탄 풍경 - 너에게 난, 나에게 넌" }
+    ];
+
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener("click", () => {
+        const index = thumb.dataset.index;
+        const chosen = movieData[index];
+
+        cdImage.src = chosen.image;
+        cdImage.style.animationPlayState = "running";
+        musicPlayer.src = chosen.music;
+        musicPlayer.play();
+        movieInfo.textContent = chosen.name;
+        ostInfo.textContent = chosen.ost;
+      });
+    });
+  </script>
+</body>
+</html>
